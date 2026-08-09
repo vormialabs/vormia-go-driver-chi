@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v1.1.0] - 2026-08-09
+
+Adds **`Routes()`** so the router satisfies vormia-go **v1.2.0** `contract.Router` (route introspection for a future `route:list` CLI).
+
+### Added
+
+- **`Routes()`** — returns every registered method+pattern pair via [chi.Walk](https://pkg.go.dev/github.com/go-chi/chi/v5#Walk). Return type matches vormia-go's `RouteInfo` alias (anonymous struct) without importing the framework.
+
+### Notes
+
+- Pair with [vormia-go](https://github.com/vormialabs/vormia-go) **v1.2.0+**.
+- Still requires `{id}` path parameter syntax (Chi convention), not `:id`.
+
 ## [v1.0.0] - 2026-07-27
 
 Initial stable release of the Chi router adapter for the Vormia Go framework — a thin wrapper around [go-chi/chi](https://github.com/go-chi/chi) that exposes an idiomatic HTTP routing API without leaking the underlying Chi types to your app.
@@ -29,4 +42,5 @@ Initial stable release of the Chi router adapter for the Vormia Go framework —
 - Requires the `{id}` path parameter syntax (Chi convention), not `:id`.
 - Licensed under MIT.
 
+[v1.1.0]: https://github.com/vormialabs/vormia-go-driver-chi/releases/tag/v1.1.0
 [v1.0.0]: https://github.com/vormialabs/vormia-go-driver-chi/releases/tag/v1.0.0

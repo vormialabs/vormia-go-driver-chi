@@ -2,10 +2,12 @@
 
 Chi router adapter for the Vormia Go framework. Thin wrapper around [go-chi/chi](https://github.com/go-chi/chi) that exposes an idiomatic HTTP routing API with middleware support — without leaking the underlying Chi types to your app.
 
+**Version:** v1.1.0 — includes `Routes()` for vormia-go **v1.2.0+** `contract.Router`.
+
 ## Install
 
 ```bash
-go get github.com/vormialabs/vormia-go-driver-chi
+go get github.com/vormialabs/vormia-go-driver-chi@v1.1.0
 ```
 
 ## Quick start
@@ -54,6 +56,7 @@ func main() {
 | `Serve(addr)` | Start blocking `http.Server` |
 | `Shutdown(ctx)` | Graceful shutdown |
 | `ServeHTTP` / `Handler()` | Use as a plain `http.Handler` |
+| `Routes()` | List registered method+pattern pairs (chi.Walk) |
 
 ### Helpers
 

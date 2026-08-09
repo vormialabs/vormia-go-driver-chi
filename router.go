@@ -80,6 +80,27 @@ func (r *Router) Shutdown(ctx context.Context) error {
 	return r.server.Shutdown(ctx)
 }
 
+// Routes returns every registered method+pattern pair, via chi.Walk.
+// The return type matches vormia-go's contract.RouteInfo alias (anonymous
+// struct) without importing the framework.
+func (r *Router) Routes() []struct {
+	Method  string
+	Pattern string
+} {
+	var out []struct {
+		Method  string
+		Pattern string
+	}
+	_ = gochi.Walk(r.mux, func(method, route string, _ http.Handler, _ ...func(http.Handler) http.Handler) error {
+		out = append(out, struct {
+			Method  string
+			Pattern string
+		}{Method: method, Pattern: route})
+		return nil
+	})
+	return out
+}
+
 // URLParam extracts a path parameter (e.g. {id}) from the request.
 // Re-exported so applications never import go-chi directly.
 func URLParam(r *http.Request, key string) string {

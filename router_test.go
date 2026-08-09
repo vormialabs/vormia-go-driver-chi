@@ -76,3 +76,30 @@ func TestRoutePrefix(t *testing.T) {
 		t.Fatalf("unprefixed should 404: got %d", rr.Code)
 	}
 }
+
+func TestRoutes(t *testing.T) {
+	r := chi.New()
+	r.Get("/hello", func(w http.ResponseWriter, _ *http.Request) { w.WriteHeader(http.StatusOK) })
+	r.Post("/users", func(w http.ResponseWriter, _ *http.Request) { w.WriteHeader(http.StatusOK) })
+	r.Route("/api", func(sub *chi.Router) {
+		sub.Get("/ping", func(w http.ResponseWriter, _ *http.Request) { w.WriteHeader(http.StatusOK) })
+	})
+
+	routes := r.Routes()
+	want := map[string]bool{
+		"GET /hello":    false,
+		"POST /users":   false,
+		"GET /api/ping": false,
+	}
+	for _, rt := range routes {
+		key := rt.Method + " " + rt.Pattern
+		if _, ok := want[key]; ok {
+			want[key] = true
+		}
+	}
+	for key, found := range want {
+		if !found {
+			t.Errorf("missing route %q in %v", key, routes)
+		}
+	}
+}
